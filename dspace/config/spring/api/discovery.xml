@@ -192,12 +192,13 @@
         <!--The sort filters for the discovery search-->
         <property name="searchSortConfiguration">
             <bean class="org.dspace.discovery.configuration.DiscoverySortConfiguration">
+                <property name="defaultSortField" ref="sortDateAccessioned" />
                 <property name="sortFields">
                     <list>
-                        <ref bean="sortScore" />
+                        <ref bean="sortDateAccessioned" />
+                        <ref bean="sortDateAccessionedAsc" />
                         <ref bean="sortTitle" />
-                        <ref bean="sortDateIssued" />
-                        <ref bean="sortDateAccessioned"/>
+                        <ref bean="sortTitleDesc" />
                     </list>
                 </property>
             </bean>
@@ -2868,6 +2869,11 @@
         <property name="type" value="date"/>
         <property name="defaultSortOrder" value="desc"/>
     </bean>
+    <bean id="sortDateAccessionedAsc" class="org.dspace.discovery.configuration.DiscoverySortFieldConfiguration">
+        <property name="metadataField" value="dc.date.accessioned"/>
+        <property name="type" value="date"/>
+        <property name="defaultSortOrder" value="asc"/>
+    </bean>
 
     <bean id="sortFamilyName" class="org.dspace.discovery.configuration.DiscoverySortFieldConfiguration">
         <property name="metadataField" value="person.familyName"/>
@@ -2931,6 +2937,10 @@
     <bean id="sortTitleAsc" class="org.dspace.discovery.configuration.DiscoverySortFieldConfiguration">
         <property name="metadataField" value="dc.title"/>
         <property name="defaultSortOrder" value="asc"/>
+    </bean>
+    <bean id="sortTitleDesc" class="org.dspace.discovery.configuration.DiscoverySortFieldConfiguration">
+        <property name="metadataField" value="dc.title"/>
+        <property name="defaultSortOrder" value="desc"/>
     </bean>
 
     <bean id="sortDateIssuedDesc" class="org.dspace.discovery.configuration.DiscoverySortFieldConfiguration">
