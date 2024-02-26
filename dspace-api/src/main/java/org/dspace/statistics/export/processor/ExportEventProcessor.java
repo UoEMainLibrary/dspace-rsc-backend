@@ -106,17 +106,19 @@ public abstract class ExportEventProcessor {
     protected String getBaseParameters(Item item)
             throws UnsupportedEncodingException {
 
+        // DAS 20240223 Added this to allow us to change the default header from X-Forwarded-For
+        String ipHeaderLabel = "NS-X-Forwarded-For";
         //We have a valid url collect the rest of the data
         String clientIP = request.getRemoteAddr();
         if (configurationService.getBooleanProperty("useProxies", false) && request
-                .getHeader("X-Forwarded-For") != null) {
+                .getHeader(ipHeaderLabel) != null) {
             /* This header is a comma delimited list */
-            for (String xfip : request.getHeader("X-Forwarded-For").split(",")) {
+            for (String xfip : request.getHeader(ipHeaderLabel).split(",")) {
                 /* proxy itself will sometime populate this header with the same value in
                     remote address. ordering in spec is vague, we'll just take the last
                     not equal to the proxy
                 */
-                if (!request.getHeader("X-Forwarded-For").contains(clientIP)) {
+                if (!request.getHeader(ipHeaderLabel).contains(clientIP)) {
                     clientIP = xfip.trim();
                 }
             }
